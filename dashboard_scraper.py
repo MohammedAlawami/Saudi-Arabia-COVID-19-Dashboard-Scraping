@@ -80,10 +80,10 @@ new_update['date'] = update_time
 new_update = new_update.fillna(0)
 
 # ## Reading the old data files and appending the new changes
-daily_changes = pd.read_excel('last_update.xlsx', sheet_name='Daily Changes', parse_dates=['date'])
+daily_changes = pd.read_excel('ksa_covid19.xlsx', sheet_name='Daily Changes', parse_dates=['date'])
 daily_changes = daily_changes.append(new_update, ignore_index=True)
 
-writer = pd.ExcelWriter('last_update.xlsx')
+writer = pd.ExcelWriter('ksa_covid19.xlsx')
 daily_changes.to_excel(writer, 'Daily Changes', index=False)
 
 # ## Merging Total Cases,	Active Cases, and Recovered Cases in Individual sheets
@@ -105,10 +105,10 @@ recovered_df.columns = ['City', '{}'.format(update_time)]
 death_df.columns = ['City', '{}'.format(update_time)]
 
 # Reading the previous update
-last_all_cases = pd.read_excel('last_update.xlsx', sheet_name='Infected')
-last_active_cases = pd.read_excel('last_update.xlsx', sheet_name='Active Cases')
-last_recovered_cases = pd.read_excel('last_update.xlsx', sheet_name='Recovered')
-last_death_cases = pd.read_excel('last_update.xlsx', sheet_name='Deaths')
+last_all_cases = pd.read_excel('ksa_covid19.xlsx', sheet_name='Infected')
+last_active_cases = pd.read_excel('ksa_covid19.xlsx', sheet_name='Active Cases')
+last_recovered_cases = pd.read_excel('ksa_covid19.xlsx', sheet_name='Recovered')
+last_death_cases = pd.read_excel('ksa_covid19.xlsx', sheet_name='Deaths')
 
 update_all_cases = pd.merge(last_all_cases, total_df, how='outer', on='City')
 update_active_cases = pd.merge(last_active_cases, active_df, how='outer', on='City')
@@ -126,10 +126,10 @@ update_recovered_cases.to_excel(writer, 'Recovered', index=False)
 update_death_cases.to_excel(writer, 'Deaths', index=False)
 
 
-last_all_cases_changes = pd.read_excel('last_update.xlsx', sheet_name='Infected Daily')
-last_active_cases_changes = pd.read_excel('last_update.xlsx', sheet_name='Active Cases Changes')
-last_recovered_cases_changes = pd.read_excel('last_update.xlsx', sheet_name='Recovered Daily')
-last_death_cases_changes = pd.read_excel('last_update.xlsx', sheet_name='Death Daily')
+last_all_cases_changes = pd.read_excel('ksa_covid19.xlsx', sheet_name='Infected Daily')
+last_active_cases_changes = pd.read_excel('ksa_covid19.xlsx', sheet_name='Active Cases Changes')
+last_recovered_cases_changes = pd.read_excel('ksa_covid19.xlsx', sheet_name='Recovered Daily')
+last_death_cases_changes = pd.read_excel('ksa_covid19.xlsx', sheet_name='Death Daily')
 
 update_all_cases['{}'.format(update_time)] = update_all_cases[update_all_cases.columns[-1]] - update_all_cases[update_all_cases.columns[-2]]
 update_active_cases['{}'.format(update_time)] = update_active_cases[update_active_cases.columns[-1]] - update_active_cases[update_active_cases.columns[-2]]
@@ -151,5 +151,5 @@ writer.save()
 sys.stdout.write('\r100% ')
 sys.stdout.flush()
 sys.stdout.write('\n')
-sys.stdout.write('Finished Scraping, the file last_update.xlsx has been updated.')
+sys.stdout.write('Finished Scraping, the file ksa_covid19.xlsx has been updated.')
 sys.stdout.flush()
