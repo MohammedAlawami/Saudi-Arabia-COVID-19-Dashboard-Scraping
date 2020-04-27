@@ -14,6 +14,8 @@ Scraping the data from the [COVID 19 Dashboard: Saudi Arabia](https://covid19.mo
     ```shell
     $ python dashboard_scraper.py
     ```
+5. Make sure that the page is fully loaded before it automatically closes, otherwise there might be some data missing.
+6. Find the data in ksa_covid19.xlsx
 
 
 ## License
