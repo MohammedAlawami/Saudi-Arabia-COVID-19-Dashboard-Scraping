@@ -7,7 +7,7 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 
 
-url = 'https://esriksa-emapstc.maps.arcgis.com/apps/opsdashboard/index.html#/6cd8cdcc73ab43939709e12c19b64a19'
+url = 'https://saudimoh.maps.arcgis.com/apps/opsdashboard/index.html#/9940f192cf864b50af4a573ab9151710'
 sys.stdout.write('\r1%  ')
 sys.stdout.flush()
 
@@ -37,9 +37,10 @@ feature_list = soup.find_all('nav', class_='feature-list')
 # Date Format is "day-month" e.g "Apr 5"
 update_time = datetime.strftime(datetime.now() - timedelta(1), '%b %d')
 
+
+all_stat = []
 '''
 # Used to work before, but the HTML changed on april 9
-all_stat = []
 for feature in feature_list:
     stat = {}
     for p in feature.find_all('p'):
@@ -51,9 +52,8 @@ for feature in feature_list:
             print(strong[0].text)
     all_stat.append(stat)
 '''
-
-all_stat = []
-
+'''
+# Changes has been made on May 10
 for feature in feature_list:
     stat = {}
     for p in feature.find_all('p'):
@@ -63,6 +63,18 @@ for feature in feature_list:
         stat[s[1].strip('\u200e')] = int(s[0])
 
     all_stat.append(stat)
+'''
+
+for feature in feature_list:
+    stat = {}
+    for p in feature.find_all('p'):
+        strong = p.find_all('strong')
+        num = strong[0].text.strip().replace(',', '')
+        city = strong[1].text.strip().split(' :')
+        stat[city[0].strip('\u200e')] = int(num)
+
+    all_stat.append(stat)
+
 
 
 # ## Writing the new update into Dataframes
